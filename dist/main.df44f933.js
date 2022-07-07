@@ -207,10 +207,10 @@ parcelRequire = (function (modules, cache, entry, globalName) {
           render();
         });
 
-        // window.onbeforeunload = function () {
-        //   var string = JSON.stringify(hashMap);
-        //   localStorage.setItem("x", string);
-        // };
+        window.onbeforeunload = function () {
+          var string = JSON.stringify(hashMap);
+          localStorage.setItem("x", string);
+        };
 
         $(document).on("keypress", function (e) {
           // const key = e.key;
