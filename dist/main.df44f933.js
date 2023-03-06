@@ -7,8 +7,8 @@
 // orig method which is the require for previous bundles
 parcelRequire = (function (modules, cache, entry, globalName) {
   // Save the require from previous bundle to this closure if any
-  var previousRequire = typeof parcelRequire === "function" && parcelRequire;
-  var nodeRequire = typeof require === "function" && require;
+  var previousRequire = typeof parcelRequire === 'function' && parcelRequire;
+  var nodeRequire = typeof require === 'function' && require;
 
   function newRequire(name, jumped) {
     if (!cache[name]) {
@@ -16,8 +16,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
         // if we cannot find the module within our internal map or
         // cache jump to the current global require ie. the last bundle
         // that was added to the page.
-        var currentRequire =
-          typeof parcelRequire === "function" && parcelRequire;
+        var currentRequire = typeof parcelRequire === 'function' && parcelRequire;
         if (!jumped && currentRequire) {
           return currentRequire(name, true);
         }
@@ -31,36 +30,30 @@ parcelRequire = (function (modules, cache, entry, globalName) {
         }
 
         // Try the node require function if it exists.
-        if (nodeRequire && typeof name === "string") {
+        if (nodeRequire && typeof name === 'string') {
           return nodeRequire(name);
         }
 
-        var err = new Error("Cannot find module '" + name + "'");
-        err.code = "MODULE_NOT_FOUND";
+        var err = new Error('Cannot find module \'' + name + '\'');
+        err.code = 'MODULE_NOT_FOUND';
         throw err;
       }
 
       localRequire.resolve = resolve;
       localRequire.cache = {};
 
-      var module = (cache[name] = new newRequire.Module(name));
+      var module = cache[name] = new newRequire.Module(name);
 
-      modules[name][0].call(
-        module.exports,
-        localRequire,
-        module,
-        module.exports,
-        this
-      );
+      modules[name][0].call(module.exports, localRequire, module, module.exports, this);
     }
 
     return cache[name].exports;
 
-    function localRequire(x) {
+    function localRequire(x){
       return newRequire(localRequire.resolve(x));
     }
 
-    function resolve(x) {
+    function resolve(x){
       return modules[name][1][x] || x;
     }
   }
@@ -77,12 +70,9 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   newRequire.cache = cache;
   newRequire.parent = previousRequire;
   newRequire.register = function (id, exports) {
-    modules[id] = [
-      function (require, module) {
-        module.exports = exports;
-      },
-      {},
-    ];
+    modules[id] = [function (require, module) {
+      module.exports = exports;
+    }, {}];
   };
 
   var error;
@@ -106,13 +96,13 @@ parcelRequire = (function (modules, cache, entry, globalName) {
     if (typeof exports === "object" && typeof module !== "undefined") {
       module.exports = mainExports;
 
-      // RequireJS
+    // RequireJS
     } else if (typeof define === "function" && define.amd) {
-      define(function () {
-        return mainExports;
-      });
+     define(function () {
+       return mainExports;
+     });
 
-      // <script>
+    // <script>
     } else if (globalName) {
       this[globalName] = mainExports;
     }
@@ -127,107 +117,77 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})(
-  {
-    epB2: [
-      function (require, module, exports) {
-        var $siteList = $(".siteList");
-        var $lastLi = $siteList.find("li.last");
-        var x = localStorage.getItem("x");
-        var xObject = JSON.parse(x);
-        var hashMap = xObject || [
-          {
-            logo: "D",
-            url: "https://developer.mozilla.org",
-          },
-          {
-            logo: "G",
-            url: "https://github.com",
-          },
-          {
-            logo: "I",
-            url: "https://www.iconfont.cn",
-          },
-          {
-            logo: "J",
-            url: "https://jsbin.com",
-          },
-          {
-            logo: "S",
-            url: "https://stackoverflow.com",
-          },
-        ];
+})({"epB2":[function(require,module,exports) {
+var $siteList = $(".siteList");
+var $lastLi = $siteList.find("li.last");
+var x = localStorage.getItem("x");
+var xObject = JSON.parse(x);
+var hashMap = xObject || [{
+  logo: "D",
+  url: "https://developer.mozilla.org"
+}, {
+  logo: "G",
+  url: "https://github.com"
+}, {
+  logo: "I",
+  url: "https://www.iconfont.cn"
+}, {
+  logo: "J",
+  url: "https://jsbin.com"
+}, {
+  logo: "S",
+  url: "https://stackoverflow.com"
+}];
 
-        var simplifyUrl = function simplifyUrl(url) {
-          return url
-            .replace("https://", "")
-            .replace("http://", "")
-            .replace("www.", "")
-            .replace(/\/.*/, ""); //删除 / 开头的内容
-        };
+var simplifyUrl = function simplifyUrl(url) {
+  return url.replace("https://", "").replace("http://", "").replace("www.", "").replace(/\/.*/, ""); //删除 / 开头的内容
+};
 
-        var render = function render() {
-          $siteList.find("li:not(.last)").remove();
-          hashMap.forEach(function (node, index) {
-            var $li = $(
-              '<li>   \n            <div class="site">\n              <div class="logo">'
-                .concat(
-                  node.logo[0],
-                  '</div>\n              <div class="link">'
-                )
-                .concat(
-                  simplifyUrl(node.url),
-                  '</div>\n              <div class=\'close\'>\n                <svg class="iconpark-icon1">\n                  <use href="#close"></use>\n                </svg>\n              </div>\n            </div>\n    </li>'
-                )
-            ).insertBefore($lastLi);
-            $li.on("click", function () {
-              window.open(node.url, "_self");
-            });
-            $li.on("click", ".close", function (e) {
-              e.stopPropagation(); //阻止冒泡
+var render = function render() {
+  $siteList.find("li:not(.last)").remove();
+  hashMap.forEach(function (node, index) {
+    var $li = $("<li>   \n            <div class=\"site\">\n              <div class=\"logo\">".concat(node.logo[0], "</div>\n              <div class=\"link\">").concat(simplifyUrl(node.url), "</div>\n              <div class='close'>\n                <svg class=\"iconpark-icon1\">\n                  <use href=\"#close\"></use>\n                </svg>\n              </div>\n            </div>\n    </li>")).insertBefore($lastLi);
+    $li.on("click", function () {
+      window.open(node.url, "_self");
+    });
+    $li.on("click", ".close", function (e) {
+      e.stopPropagation(); //阻止冒泡
 
-              hashMap.splice(index, 1);
-              render();
-            });
-          });
-        };
+      hashMap.splice(index, 1);
+      render();
+    });
+  });
+};
 
-        render();
-        $(".addButton").on("click", function () {
-          var url = window.prompt("请问你要添加的网址是:");
+render();
+$(".addButton").on("click", function () {
+  var url = window.prompt("请问你要添加的网址是:");
 
-          if (url.indexOf("http") !== 0) {
-            url = "http://" + url;
-          }
+  if (url.indexOf("http") !== 0) {
+    url = "http://" + url;
+  }
 
-          hashMap.push({
-            logo: simplifyUrl(url)[0].toUpperCase(),
-            url: url,
-          });
-          render();
-        });
+  hashMap.push({
+    logo: simplifyUrl(url)[0].toUpperCase(),
+    url: url
+  });
+  render();
+});
 
-        window.onbeforeunload = function () {
-          var string = JSON.stringify(hashMap);
-          localStorage.setItem("x", string);
-        };
+window.onbeforeunload = function () {
+  var string = JSON.stringify(hashMap);
+  localStorage.setItem("x", string);
+};
 
-        $(document).on("keypress", function (e) {
-          // const key = e.key;
-          var key = e.key;
+$(document).on("keypress", function (e) {
+  // const key = e.key;
+  var key = e.key;
 
-          for (var i = 0; i < hashMap.length; i++) {
-            if (hashMap[i].logo.toLowerCase() === key) {
-              window.open(hashMap[i].url, "_self");
-            }
-          }
-        });
-      },
-      {},
-    ],
-  },
-  {},
-  ["epB2"],
-  null
-);
+  for (var i = 0; i < hashMap.length; i++) {
+    if (hashMap[i].logo.toLowerCase() === key) {
+      window.open(hashMap[i].url, "_self");
+    }
+  }
+});
+},{}]},{},["epB2"], null)
 //# sourceMappingURL=main.df44f933.js.map
